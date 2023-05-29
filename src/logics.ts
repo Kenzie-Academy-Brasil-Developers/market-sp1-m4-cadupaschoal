@@ -29,18 +29,22 @@ export const totalValues = (): number => {
 export const create = (request: Request, response: Response): Response => {
   const { newProducts } = response.locals;
   const date = new Date();
-  newProducts.forEach((product: IFoodProduct | ICleaningProduct) => {
-    const newProduct = {
-      ...product,
-      id: generateId(),
-      expirationDate: generateExpirationDate(new Date()),
-    };
-    market.push(newProduct);
-  });
+  const addDateToResponse = newProducts.map(
+    (product: IFoodProduct | ICleaningProduct) => {
+      const newProduct = {
+        ...product,
+        id: generateId(),
+        expirationDate: generateExpirationDate(new Date()),
+      };
+      market.push(newProduct);
+
+      return newProduct;
+    }
+  );
 
   const serverResponse = {
     total: totalValues(),
-    marketProducts: newProducts,
+    marketProducts: addDateToResponse,
   };
 
   response.locals = {
