@@ -29,7 +29,7 @@ export const totalValues = (): number => {
 export const create = (request: Request, response: Response): Response => {
   const { newProducts } = response.locals;
   const date = new Date();
-  const addDateToResponse = newProducts.map(
+  const formatedResponse = newProducts.map(
     (product: IFoodProduct | ICleaningProduct) => {
       const newProduct = {
         ...product,
@@ -44,7 +44,7 @@ export const create = (request: Request, response: Response): Response => {
 
   const serverResponse = {
     total: totalValues(),
-    marketProducts: addDateToResponse,
+    marketProducts: formatedResponse,
   };
 
   response.locals = {
